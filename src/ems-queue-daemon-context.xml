@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--  - Application context definition for "springapp" DispatcherServlet.  -->
+<beans>
+
+	<bean id="wmDS" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName">
+	        <value>oracle.jdbc.driver.OracleDriver</value>
+	    </property>
+	    <property name="url">
+	    	<value>jdbc:oracle:thin:@10.68.66.112:1522:CTI</value>
+	    	<!--  
+	    	<value>jdbc:oracle:thin:@10.64.19.227:1537:FKTEST02</value>
+	    	-->
+	    	<!--  
+	        <value>jdbc:oracle:thin:@10.64.19.227:1536:FKSIT</value>
+	        -->
+	    </property>
+	    <property name="username">
+	        <value>michelle</value>
+	    </property>
+	    <property name="password">
+	        <value>apcti99</value>
+	    </property>
+	    <property name="maxActive">
+	        <value>50</value>
+	    </property>
+	    <property name="maxIdle">
+	        <value>1</value>
+	    </property>
+	    <property name="minIdle">
+	        <value>0</value>
+        </property>
+		<property name="maxWait">
+        	  <value>30000</value>
+        </property>
+        <property name="timeBetweenEvictionRunsMillis">
+        	  <value>1800000</value>
+        </property>
+        <property name="minEvictableIdleTimeMillis">
+        	  <value>3600000</value>
+	    </property>
+	</bean>
+	
+	
+	
+	<!--WM JdbcTemplate -->
+    <bean id="wmJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="wmDS"/>
+        </property>
+    </bean>
+    
+    <bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"/>
+    
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+        <property name="nativeJdbcExtractor" ref="nativeJdbcExtractor"/>
+    </bean>
+    
+    <!--mail sender-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+         <value>10.68.77.40</value>
+        </property>
+        <property name="port">
+          <value>25</value>
+        </property>
+    </bean>
+
+</beans>
